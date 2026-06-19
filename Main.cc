@@ -71,12 +71,57 @@ static void LoadEnvFile(const std::string& env_path)
     std::cout << "[LoadEnv] 已加载环境变量文件: " << env_path << std::endl;
 }
 
-// 数据库配置
-#define HOST "115.190.2.155"
-#define USER "czj"
-#define PASS "123456"
-#define DBNAME "http_service"
-#define PORT 3306
+// 数据库配置从环境变量读取，避免把服务器密码提交到代码仓库。
+static std::string GetConfigValue(const char* key, const std::string& fallback)
+{
+    const char* value = std::getenv(key);
+    if (value != nullptr && value[0] != '\0')
+    {
+        return value;
+    }
+    return fallback;
+}
+
+static const char* DbHost()
+{
+    static std::string value = GetConfigValue("MYSQL_HOST", "127.0.0.1");
+    return value.c_str();
+}
+
+static const char* DbUser()
+{
+    static std::string value = GetConfigValue("MYSQL_USER", "czj");
+    return value.c_str();
+}
+
+static const char* DbPass()
+{
+    static std::string value = GetConfigValue("MYSQL_PASS", "");
+    return value.c_str();
+}
+
+static const char* DbName()
+{
+    static std::string value = GetConfigValue("MYSQL_DBNAME", "http_service");
+    return value.c_str();
+}
+
+static unsigned int DbPort()
+{
+    const char* value = std::getenv("MYSQL_PORT");
+    if (value == nullptr || value[0] == '\0')
+    {
+        return 3306;
+    }
+    int port = std::atoi(value);
+    return port > 0 ? static_cast<unsigned int>(port) : 3306;
+}
+
+#define HOST DbHost()
+#define USER DbUser()
+#define PASS DbPass()
+#define DBNAME DbName()
+#define PORT DbPort()
 
 // SHA256加密函数
 std::string sha256(const std::string& str)

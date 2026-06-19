@@ -4,4 +4,4 @@ myhttp_ai: Main.cc $(HEADERS)
 	g++ -o $@ Main.cc -std=c++17 -lcurl -ljsoncpp -lpthread -lmysqlclient -lssl -lcrypto
 .PHONY:clean
 clean:
-	rm -rf myhttp_ai /var/log/my.log 
+	rm -rf myhttp_ai
