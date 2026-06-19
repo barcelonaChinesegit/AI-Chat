@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI智能助手 - ChatGPT镜像站</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            color: #fff;
+            overflow-x: hidden;
+        }
+        
+        /* 顶部导航 */
+        .top-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 24px;
+            font-weight: 600;
+        }
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+        
+        .user-section {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        .user-avatar-btn {
+            display: none;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            color: white;
+            font-size: 14px;
+        }
+        
+        .user-avatar-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .auth-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn {
+            padding: 10px 24px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn-login {
+            background: transparent;
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+        }
+        
+        .btn-login:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: white;
+        }
+        
+        .btn-signup {
+            background: white;
+            color: #667eea;
+        }
+        
+        .btn-signup:hover {
+            background: rgba(255, 255, 255, 0.9);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* 主内容区 */
+        .main-content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 100px 20px 50px;
+        }
+        
+        .hero-section {
+            text-align: center;
+            max-width: 900px;
+            animation: fadeInUp 1s ease-out;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .hero-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+        
+        .hero-title {
+            font-size: 56px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .hero-subtitle {
+            font-size: 22px;
+            margin-bottom: 15px;
+            opacity: 0.95;
+            font-weight: 400;
+        }
+        
+        .hero-description {
+            font-size: 16px;
+            margin-bottom: 40px;
+            opacity: 0.85;
+            line-height: 1.6;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn-primary {
+            padding: 18px 48px;
+            background: white;
+            color: #667eea;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 50px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.95);
+        }
+        
+        .btn-secondary {
+            padding: 18px 48px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 50px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: white;
+            transform: translateY(-3px);
+        }
+        
+        /* 图片展示区 */
+        .preview-section {
+            margin-top: 60px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .preview-images {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+        
+        .preview-image {
+            width: 280px;
+            height: 180px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s;
+            cursor: pointer;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .preview-image:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+        
+        .preview-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        /* 特性展示 */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .feature-card {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 30px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        }
+        
+        .feature-icon {
+            font-size: 36px;
+            margin-bottom: 15px;
+        }
+        
+        .feature-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .feature-desc {
+            font-size: 14px;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+        
+        /* 底部 */
+        footer {
+            padding: 20px;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.2);
+            font-size: 13px;
+            opacity: 0.8;
+        }
+        
+        footer a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+        
+        footer a:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
+        
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 40px;
+            }
+            
+            .hero-subtitle {
+                font-size: 18px;
+            }
+            
+            .hero-description {
+                font-size: 14px;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .btn-primary, .btn-secondary {
+                padding: 16px 32px;
+                font-size: 16px;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .preview-images {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .preview-image {
+                width: 100%;
+                max-width: 320px;
+            }
+            
+            .top-nav {
+                padding: 15px 20px;
+            }
+            
+            .logo {
+                font-size: 20px;
+            }
+            
+            .auth-buttons {
+                gap: 5px;
+            }
+            
+            .btn {
+                padding: 8px 16px;
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部导航 -->
+    <div class="top-nav">
+        <div class="logo">
+            <div class="logo-icon">🤖</div>
+            <span>AI助手</span>
+        </div>
+        <div class="user-section">
+            <!-- 已登录显示 -->
+            <div class="user-avatar-btn" id="userAvatar" onclick="window.location.href='/UserCenter.html'">
+                <span id="avatarIcon">👤</span>
+                <span id="usernameDisplay">用户</span>
+            </div>
+            <!-- 未登录显示 -->
+            <div class="auth-buttons" id="authButtons">
+                <a href="/Login.html" class="btn btn-login">登录</a>
+                <a href="/Register.html" class="btn btn-signup">注册</a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 主内容 -->
+    <div class="main-content">
+        <div class="hero-section">
+            <div class="hero-icon">🤖</div>
+            <h1 class="hero-title">AI智能助手</h1>
+            <p class="hero-subtitle">体验强大的人工智能对话系统</p>
+            <p class="hero-description">
+                支持多种AI模型，包括GPT-4、GPT-4 Turbo、DeepSeek等。
+                与AI进行自然流畅的对话，获取智能回答，提升工作效率。
+            </p>
+            
+            <div class="cta-buttons">
+                <a href="/AIChat.html" class="btn-primary">
+                    <span>💬</span>
+                    <span>开始对话</span>
+                </a>
+                <a href="/Register.html" class="btn-secondary" id="registerBtn">
+                    <span>✨</span>
+                    <span>免费注册</span>
+                </a>
+            </div>
+            
+            <!-- 界面预览 -->
+            <div class="preview-section">
+                <div class="preview-images">
+                    <div class="preview-image">
+                        <img src="/image/ChatGPT-4o.jpg" alt="ChatGPT界面" onclick="window.location.href='/AIChat.html'">
+                    </div>
+                    <div class="preview-image">
+                        <img src="/image/gpt.png" alt="GPT对话" onclick="window.location.href='/AIChat.html'">
+                    </div>
+                    <div class="preview-image">
+                        <img src="/image/R-C.jpg" alt="AI助手" onclick="window.location.href='/AIChat.html'">
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 特性展示 -->
+            <div class="features">
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <div class="feature-title">快速响应</div>
+                    <div class="feature-desc">毫秒级响应速度，流畅的对话体验</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🧠</div>
+                    <div class="feature-title">多模型支持</div>
+                    <div class="feature-desc">支持GPT-4、GPT-4o、DeepSeek等多种模型</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💾</div>
+                    <div class="feature-title">对话记录</div>
+                    <div class="feature-desc">自动保存对话历史，随时查看和继续</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <div class="feature-title">安全可靠</div>
+                    <div class="feature-desc">企业级安全保障，保护您的隐私</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 底部 -->
+    <footer>
+        <p>&copy; 2025 陈子健 版权所有</p>
+        <p>
+            <a href="https://beian.miit.gov.cn" target="_blank" rel="noopener noreferrer">ICP备案号：京ICP备2025149632号-1</a>
+        </p>
+    </footer>
+    
+    <script>
+        // 页面加载时检查登录状态
+        window.addEventListener('load', async () => {
+            try {
+                const response = await fetch('/get_current_user');
+                const data = await response.json();
+                
+                if (data.logged_in && data.success) {
+                    // 已登录
+                    document.getElementById('authButtons').style.display = 'none';
+                    document.getElementById('userAvatar').style.display = 'flex';
+                    document.getElementById('usernameDisplay').textContent = data.username;
+                    if (data.avatar) {
+                        document.getElementById('avatarIcon').textContent = data.avatar;
+                    }
+                    // 修改注册按钮为用户中心
+                    document.getElementById('registerBtn').href = '/UserCenter.html';
+                    document.getElementById('registerBtn').innerHTML = '<span>👤</span><span>用户中心</span>';
+                } else {
+                    // 未登录
+                    document.getElementById('authButtons').style.display = 'flex';
+                    document.getElementById('userAvatar').style.display = 'none';
+                }
+            } catch (error) {
+                console.error('检查登录状态失败:', error);
+                document.getElementById('authButtons').style.display = 'flex';
+                document.getElementById('userAvatar').style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

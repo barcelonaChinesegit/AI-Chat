@@ -1,0 +1,7 @@
+fastapi
+uvicorn[standard]
+langchain
+langchain-openai
+python-dotenv
+pypdf
+python-docx

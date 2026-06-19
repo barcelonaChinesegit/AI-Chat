@@ -1,0 +1,37 @@
+# Secrets and local environment
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+
+# Logs and runtime data
+logs/
+*.log
+wwwroot/uploads/
+
+# Build artifacts
+myhttp_ai
+*.o
+*.out
+*.so
+*.a
+
+# Python cache and virtual environments
+__pycache__/
+*.py[cod]
+.python-version
+.venv/
+venv/
+env/
+
+# Editor and OS files
+.DS_Store
+*.swp
+*.swo
+*~
+.vscode/
+.idea/

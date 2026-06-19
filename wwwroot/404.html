@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - 页面未找到</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            text-align: center;
+            padding: 50px 20px;
+            margin: 0;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            max-width: 600px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 40px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            font-size: 5em;
+            margin: 0;
+            color: #e74c3c;
+        }
+        h2 {
+            margin-top: 10px;
+            margin-bottom: 20px;
+            color: #333;
+            font-size: 1.8em;
+        }
+        p {
+            margin-bottom: 20px;
+            font-size: 1.1em;
+        }
+        a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .emoji {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+        
+        /* 响应式设计 - 平板 */
+        @media screen and (max-width: 768px) {
+            body {
+                padding: 30px 15px;
+            }
+            .container {
+                padding: 30px 25px;
+            }
+            h1 {
+                font-size: 4em;
+            }
+            h2 {
+                font-size: 1.5em;
+            }
+            p {
+                font-size: 1em;
+            }
+            .emoji {
+                font-size: 2.5em;
+            }
+        }
+        
+        /* 响应式设计 - 手机 */
+        @media screen and (max-width: 480px) {
+            body {
+                padding: 20px 10px;
+            }
+            .container {
+                padding: 25px 20px;
+                border-radius: 5px;
+            }
+            h1 {
+                font-size: 3em;
+            }
+            h2 {
+                font-size: 1.3em;
+            }
+            p {
+                font-size: 0.95em;
+                margin-bottom: 15px;
+            }
+            .emoji {
+                font-size: 2em;
+                margin-bottom: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="emoji">😕</div>
+        <h1>404</h1>
+        <h2>页面未找到</h2>
+        <p>抱歉，您访问的页面不存在或已被移除。</p>
+        <p>您可以返回<a href="/">首页</a>或检查URL是否正确。</p>
+    </div>
+</body>
+</html>
